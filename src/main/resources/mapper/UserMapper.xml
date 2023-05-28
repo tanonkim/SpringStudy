@@ -13,4 +13,12 @@
     <select id="checkEmail" parameterType="java.lang.String" resultType="int">
         SELECT COUNT(*) FROM User where email = #{email}
     </select>
+
+    <select id="findUserByEmail" resultType="com.alpaco.dev.dto.UserSignUpRequestDto">
+        SELECT username, nickname, birth, email, password, status, privacy_agreement, marketing_agreement,
+               host_permission, oauth_provider
+        FROM User
+        WHERE email = #{email}
+    </select>
+
 </mapper>
