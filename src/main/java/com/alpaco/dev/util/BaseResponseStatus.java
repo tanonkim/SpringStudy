@@ -15,6 +15,9 @@ public enum BaseResponseStatus {
     /**
      * 2000 : Request 오류
      */
+    // UserException
+    DUPLICATED_EMAIL(false, 2010, "중복된 이메일입니다."),
+
     // 입력값 예외
     INVALID_REQUEST(false, 2000, "잘못된 요청이 존재합니다."),
     EMPTY_REQUEST_PARAMETER(false, 2098, "Request Parameter가 존재하지 않습니다."),

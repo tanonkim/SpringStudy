@@ -4,7 +4,7 @@ import com.alpaco.dev.entity.BaseTimeEntity;
 import com.alpaco.dev.entity.user.oauth.OauthProvider;
 import lombok.*;
 
-
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +29,24 @@ public class User extends BaseTimeEntity {
     private boolean hostPermission;
     private OauthProvider oauthProvider;
 
+    @Builder
+    public User(String username, String nickname, String birth, String email,
+                String password, Status status, boolean privacyAgreement,
+                boolean marketingAgreement, boolean hostPermission, OauthProvider oauthProvider) {
+        this.username = username;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.privacyAgreement = privacyAgreement;
+        this.marketingAgreement = marketingAgreement;
+        this.hostPermission = hostPermission;
+        this.oauthProvider = oauthProvider;
+    }
+
+    public void setPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
 
 }
