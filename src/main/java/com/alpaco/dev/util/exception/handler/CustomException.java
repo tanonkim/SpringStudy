@@ -1,6 +1,7 @@
 package com.alpaco.dev.util.exception.handler;
 
 import com.alpaco.dev.util.BaseResponse;
+import com.alpaco.dev.util.exception.UserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +34,11 @@ class CustomExceptionHandler {
         e.getBindingResult().getAllErrors()
                 .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
         return new BaseResponse<>(INVALID_REQUEST, errors);
+    }
+
+    @ExceptionHandler({UserException.class})
+    public BaseResponse<Object> handleUserException(UserException e) {
+        return new BaseResponse<>(e.getStatus());
     }
 
 }
