@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 
 @Data
 public class UserSignUpRequestDto {
-    private long user_id;
     @NotBlank(message = "username은 필수 입력사항 입니다.")
     private String username;
     @NotBlank(message = "nickname은 필수 입력사항 입니다.")

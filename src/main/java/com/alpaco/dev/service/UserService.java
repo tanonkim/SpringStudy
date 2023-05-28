@@ -24,12 +24,12 @@ public class UserService {
 
         validateDuplicateEmail(userRequest.getEmail());
 
-        User user = userRequest.toEntity();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        User user = userRequest.toEntity(); // Dto -> Entity
+        String encodedPassword = passwordEncoder.encode(user.getPassword()); // 비밀번호 암호화
         user.setPassword(encodedPassword);
-        userMapper.saveUser(user);
+        userMapper.saveUser(user); // user 저장
 
-        return UserSignUpResponseDto.builder()
+        return UserSignUpResponseDto.builder() // response build
                 .id(user.getUser_id())
                 .build();
     }

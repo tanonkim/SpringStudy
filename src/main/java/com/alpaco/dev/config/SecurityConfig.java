@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/signup/**").permitAll()
+                .antMatchers("/", "/app/signup/**").permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }
