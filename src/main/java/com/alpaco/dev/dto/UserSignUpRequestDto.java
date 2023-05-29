@@ -23,6 +23,7 @@ public class UserSignUpRequestDto {
             message = "특수문자 포함 8자 이상 입력해야 합니다.")
     private String password;
     private boolean marketingAgreement;
+    private OauthProvider oauthProvider;
 
     public User toEntity(){
         return User.builder()
