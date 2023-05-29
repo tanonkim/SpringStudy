@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.alpaco.dev.mapper.UserMapper">
-    <insert id="saveUser" parameterType="com.alpaco.dev.dto.UserSignUpRequestDto" useGeneratedKeys="true" keyProperty="user_id">
+    <insert id="saveUser" parameterType="com.alpaco.dev.dto.user.UserSignUpRequestDto" useGeneratedKeys="true" keyProperty="user_id">
         INSERT INTO User
         (username, nickname, birth, email, password, status, privacy_agreement, marketing_agreement,
          host_permission, oauth_provider)
@@ -14,7 +14,7 @@
         SELECT COUNT(*) FROM User where email = #{email}
     </select>
 
-    <select id="findUserByEmail" resultType="com.alpaco.dev.dto.UserSignUpRequestDto">
+    <select id="findUserByEmail" resultType="com.alpaco.dev.dto.user.UserSignUpRequestDto">
         SELECT username, nickname, birth, email, password, status, privacy_agreement, marketing_agreement,
                host_permission, oauth_provider
         FROM User

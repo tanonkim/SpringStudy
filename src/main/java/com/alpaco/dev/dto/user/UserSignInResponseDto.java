@@ -1,4 +1,4 @@
-package com.alpaco.dev.dto;
+package com.alpaco.dev.dto.user;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,10 +1,10 @@
 package com.alpaco.dev.service;
 
 
-import com.alpaco.dev.dto.UserSignInRequestDto;
-import com.alpaco.dev.dto.UserSignInResponseDto;
-import com.alpaco.dev.dto.UserSignUpRequestDto;
-import com.alpaco.dev.dto.UserSignUpResponseDto;
+import com.alpaco.dev.dto.user.UserSignInRequestDto;
+import com.alpaco.dev.dto.user.UserSignInResponseDto;
+import com.alpaco.dev.dto.user.UserSignUpRequestDto;
+import com.alpaco.dev.dto.user.UserSignUpResponseDto;
 import com.alpaco.dev.entity.user.User;
 import com.alpaco.dev.mapper.UserMapper;
 import com.alpaco.dev.util.exception.UserException;
