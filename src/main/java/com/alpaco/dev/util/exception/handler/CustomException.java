@@ -1,6 +1,7 @@
 package com.alpaco.dev.util.exception.handler;
 
 import com.alpaco.dev.util.BaseResponse;
+import com.alpaco.dev.util.exception.RoomException;
 import com.alpaco.dev.util.exception.UserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
@@ -38,6 +39,11 @@ class CustomExceptionHandler {
 
     @ExceptionHandler({UserException.class})
     public BaseResponse<Object> handleUserException(UserException e) {
+        return new BaseResponse<>(e.getStatus());
+    }
+
+    @ExceptionHandler({RoomException.class})
+    public BaseResponse<Object> handleRoomException(RoomException e) {
         return new BaseResponse<>(e.getStatus());
     }
 

@@ -1,15 +1,13 @@
 package com.alpaco.dev.controller;
 
+import com.alpaco.dev.dto.room.RoomDetailResponseDto;
 import com.github.pagehelper.PageInfo;
 import com.alpaco.dev.dto.room.RoomListResponseDto;
 import com.alpaco.dev.service.RoomService;
 import com.alpaco.dev.util.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,4 +27,14 @@ public class RoomController {
         PageInfo<List<RoomListResponseDto>> listPageInfo = new PageInfo<>(roomService.findAllDesc(pageNo, orderKind));
         return new BaseResponse<>(listPageInfo);
     }
+
+    @GetMapping("/rooms/{roomId}")
+    public BaseResponse<RoomDetailResponseDto> getRoomDetail(@PathVariable("roomId") Long roomId) {
+
+        RoomDetailResponseDto roomDetailResponseDto = roomService.getRoomDetail(roomId, null);
+
+        return new BaseResponse<>(roomDetailResponseDto);
+
+    }
+
 }
