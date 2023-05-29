@@ -31,7 +31,7 @@
     </select>
     <!-- findByRoomId -->
     <resultMap id="ResultMap" type="com.alpaco.dev.dto.room.RoomDetailResponseDto">
-        <id column="roomId"/>
+        <id property="roomId" column="roomId"/>
         <id property="hostName" column="hostName"/>
         <id property="metropolitan" column="metropolitan"/>
         <id property="city" column="city"/>

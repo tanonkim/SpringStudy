@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/app/signup/**", "/app/signin/**",
-                        "/app/user/kakao/**", "/app/rooms/**").permitAll()
+                        "/app/user/kakao/**", "/app/rooms/**", "/app/reviews/**").permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }
