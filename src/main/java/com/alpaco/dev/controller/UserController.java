@@ -5,10 +5,13 @@ import com.alpaco.dev.dto.UserSignInResponseDto;
 import com.alpaco.dev.dto.UserSignUpRequestDto;
 import com.alpaco.dev.dto.UserSignUpResponseDto;
 import com.alpaco.dev.service.UserService;
+import com.alpaco.dev.service.auth.KakaoUserService;
 import com.alpaco.dev.util.BaseResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -18,6 +21,8 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    private final KakaoUserService kakaoUserService;
+
 
     @PostMapping("/signup")
     public BaseResponse<UserSignUpResponseDto> signUp(@Valid @RequestBody UserSignUpRequestDto dto) {
@@ -30,4 +35,10 @@ public class UserController {
         return new BaseResponse<>(signin);
     }
 
+    @GetMapping("/user/kakao/callback")
+    public BaseResponse<UserSignInResponseDto> kakaoLogin(@RequestParam String code,
+                                                          HttpServletResponse response) throws JsonProcessingException {
+        UserSignInResponseDto signin = kakaoUserService.kakaoLogin(code, response);
+        return new BaseResponse<>(signin);
+    }
 }
