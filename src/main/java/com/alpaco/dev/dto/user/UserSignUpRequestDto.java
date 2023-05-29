@@ -1,4 +1,4 @@
-package com.alpaco.dev.dto;
+package com.alpaco.dev.dto.user;
 
 import com.alpaco.dev.entity.user.Status;
 import com.alpaco.dev.entity.user.User;

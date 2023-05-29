@@ -1,7 +1,7 @@
 package com.alpaco.dev.service.auth;
 
-import com.alpaco.dev.dto.UserSignInResponseDto;
-import com.alpaco.dev.dto.UserSignUpRequestDto;
+import com.alpaco.dev.dto.user.UserSignInResponseDto;
+import com.alpaco.dev.dto.user.UserSignUpRequestDto;
 import com.alpaco.dev.entity.user.oauth.OauthProvider;
 import com.alpaco.dev.mapper.UserMapper;
 import com.alpaco.dev.util.jwt.JwtProvider;

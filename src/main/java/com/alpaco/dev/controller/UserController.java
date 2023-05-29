@@ -1,9 +1,9 @@
 package com.alpaco.dev.controller;
 
-import com.alpaco.dev.dto.UserSignInRequestDto;
-import com.alpaco.dev.dto.UserSignInResponseDto;
-import com.alpaco.dev.dto.UserSignUpRequestDto;
-import com.alpaco.dev.dto.UserSignUpResponseDto;
+import com.alpaco.dev.dto.user.UserSignInRequestDto;
+import com.alpaco.dev.dto.user.UserSignInResponseDto;
+import com.alpaco.dev.dto.user.UserSignUpRequestDto;
+import com.alpaco.dev.dto.user.UserSignUpResponseDto;
 import com.alpaco.dev.service.UserService;
 import com.alpaco.dev.service.auth.KakaoUserService;
 import com.alpaco.dev.util.BaseResponse;
