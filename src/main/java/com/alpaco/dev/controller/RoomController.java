@@ -1,5 +1,6 @@
 package com.alpaco.dev.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.alpaco.dev.dto.room.RoomListResponseDto;
 import com.alpaco.dev.service.RoomService;
 import com.alpaco.dev.util.BaseResponse;
@@ -19,13 +20,13 @@ import java.util.List;
 public class RoomController {
     private final RoomService roomService;
 
-
     @GetMapping("/rooms")
-    public BaseResponse<List<RoomListResponseDto>> get(@RequestParam(required = false, defaultValue = "ID_DESC") String sort) {
+    public BaseResponse<PageInfo<List<RoomListResponseDto>>> get(@RequestParam(required = false, defaultValue = "1") int pageNo,
+                                                                 @RequestParam(required = false, defaultValue = "ID_DESC") String sort) {
 
         String orderKind = sort;
 
-        List<RoomListResponseDto> listPageInfo = roomService.findAllDesc(orderKind);
+        PageInfo<List<RoomListResponseDto>> listPageInfo = new PageInfo<>(roomService.findAllDesc(pageNo, orderKind));
         return new BaseResponse<>(listPageInfo);
     }
 }
