@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.alpaco.dev.mapper.RoomMapper">
+    <select id="findAllDesc" resultType="com.alpaco.dev.dto.room.RoomListResponseDto">
+        SELECT r.room_id,
+        r.address1 as city,
+        r.address2 as district,
+        r.price,
+        r.main_image as roomMainImage,
+        count(rv.review_id) as review_count,
+        ifnull(avg(rv.score), 0) as averageReviewScore
+        From Room r
+        left join Reservation rs on (r.room_id = rs.room_id)
+        left join Review rv on (rs.reservation_id = rv.reservation_id)
+        WHERE r.status = 'ACTIVE'
+        group by r.room_id
+        <trim prefix="ORDER BY">
+            <if test="orderKind == 'ID_DESC'">r.room_id DESC</if>
+            <if test="orderKind == 'PRICE_DESC'">r.price DESC</if>
+            <if test="orderKind == 'PRICE_ASC'">r.price ASC</if>
+            <if test="orderKind == 'REVIEW_COUNT_DESC'">review_count DESC</if>
+            <if test="orderKind == 'AVERAGE_REVIEW_SCORE_DESC'">review_average_score DESC</if>
+        </trim>
+    </select>
+
+</mapper>
