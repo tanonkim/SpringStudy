@@ -1,9 +1,7 @@
 package com.alpaco.dev.util.exception.handler;
 
 import com.alpaco.dev.util.BaseResponse;
-import com.alpaco.dev.util.exception.ReviewException;
-import com.alpaco.dev.util.exception.RoomException;
-import com.alpaco.dev.util.exception.UserException;
+import com.alpaco.dev.util.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,6 +48,16 @@ class CustomExceptionHandler {
 
     @ExceptionHandler({ReviewException.class})
     public BaseResponse<Object> handleReviewException(ReviewException e) {
+        return new BaseResponse<>(e.getStatus());
+    }
+
+    @ExceptionHandler({ReservationException.class})
+    public BaseResponse<Object> handleUserException(ReservationException e) {
+        return new BaseResponse<>(e.getStatus());
+    }
+
+    @ExceptionHandler({AwsException.class})
+    public BaseResponse<Object> handleUserException(AwsException e) {
         return new BaseResponse<>(e.getStatus());
     }
 
