@@ -20,4 +20,12 @@ public class Review extends BaseTimeEntity {
     private Reservation reservation;
     private List<ReviewImage> reviewImages = new ArrayList<>();
 
+    @Builder
+    public Review(int score, String content, Status status, Reservation reservation) {
+        this.score = score;
+        this.content = content;
+        this.status = status;
+        this.reservation = reservation;
+    }
+
 }
