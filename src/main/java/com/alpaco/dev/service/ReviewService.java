@@ -46,8 +46,8 @@ public class ReviewService {
     }
 
     // 리뷰 - 리뷰이미지 저장 로직
-    public ReviewSaveResponseDto save(String userEmail, Long reservationId, ReviewSaveRequestDto requestDto) {
-        Long userId = userMapper.findUserIdByEmail(userEmail);
+    public ReviewSaveResponseDto save(Long userNumber, Long reservationId, ReviewSaveRequestDto requestDto) {
+        Long userId = userNumber;
 
         // Reservaton 객체 꺼내오기, 예외 - 리뷰작성 시 예약이 없는 경우
         Reservation reservation = reservationMapper.findByIdAndUserId(reservationId, userId)
