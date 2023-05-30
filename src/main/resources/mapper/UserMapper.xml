@@ -21,4 +21,8 @@
         WHERE email = #{email}
     </select>
 
+    <select id="findUserIdByEmail" parameterType="java.lang.String" resultType="Long">
+        SELECT user_id FROM User where email = #{email}
+    </select>
+
 </mapper>

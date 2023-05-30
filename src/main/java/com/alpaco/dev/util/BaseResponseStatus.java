@@ -28,6 +28,16 @@ public enum BaseResponseStatus {
     NONE_ROOM(false, 2021, "존재하지 않는 숙소입니다."),
     INACTIVE_ROOM(false, 2022, "비공개 숙소입니다."),
 
+    // ReviewException
+    POST_REVIEW_NONE_RESERVATION(false, 2041, "존재하지 않는 예약입니다."),
+    POST_REVIEW_ALREADY_CREATED(false, 2042, "예약건에 대한 리뷰가 이미 존재합니다."),
+    NONE_REVIEW(false, 2031, "존재하지 않는 리뷰입니다."),
+
+
+    //AWS S3
+    POST_IMAGE_INVALID_EXTENSION(false, 2032, "업로드가 불가능한 확장자입니다."),
+    POST_IMAGE_CONVERT_ERROR(false, 2099, "AWS S3 이미지 변환이 실패했습니다."),
+
     EMPTY_REQUEST_PARAMETER(false, 2098, "Request Parameter가 존재하지 않습니다."),
 
     /**
