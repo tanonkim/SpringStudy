@@ -2,6 +2,7 @@ package com.alpaco.dev.service.auth;
 
 import com.alpaco.dev.dto.user.UserSignInResponseDto;
 import com.alpaco.dev.dto.user.UserSignUpRequestDto;
+import com.alpaco.dev.entity.user.User;
 import com.alpaco.dev.entity.user.oauth.OauthProvider;
 import com.alpaco.dev.mapper.UserMapper;
 import com.alpaco.dev.util.jwt.JwtProvider;
@@ -46,8 +47,7 @@ public class KakaoUserService {
         String userEmail = kakaoUserInfo.getEmail();
 
         // 3. 카카오ID로 회원가입 처리
-        UserSignUpRequestDto kakaoUser = registerKakaoUserIfNeed(kakaoUserInfo);
-        kakaoUser.setOauthProvider(OauthProvider.KAKAO);
+        registerKakaoUserIfNeed(kakaoUserInfo);
 
         // 4. 토큰 발급
         Token token = jwtProvider.createToken(userEmail);
@@ -115,14 +115,19 @@ public class KakaoUserService {
         String email = jsonNode.get("kakao_account").get("email").asText();
         String nickname = jsonNode.get("properties").get("nickname").asText();
 
-        UserSignUpRequestDto dto = new UserSignUpRequestDto();
-        dto.setUsername("kakao_" + id);
-        dto.setNickname(nickname);
-        dto.setBirth("");
-        dto.setEmail(email);
-        dto.setOauthProvider(OauthProvider.KAKAO);
+        String password = UUID.randomUUID().toString();
+        String encodedPassword = passwordEncoder.encode(password);
 
-        return dto;
+
+        return UserSignUpRequestDto.builder()
+                .username("kakao_" + id)
+                .birth("")
+                .nickname(nickname)
+                .oauthProvider(OauthProvider.KAKAO)
+                .email(email)
+                .password(encodedPassword)
+                .marketingAgreement(true)
+                .build();
     }
 
     // 3. 카카오ID로 회원가입 처리
@@ -134,19 +139,10 @@ public class KakaoUserService {
 
         if (kakaoUser == null) {
             // 회원가입
-            // password: random UUID
-            String password = UUID.randomUUID().toString();
-            String encodedPassword = passwordEncoder.encode(password);
-            String username = "kakao_" + nickname;
 
-            kakaoUser = new UserSignUpRequestDto();
-            kakaoUser.setUsername(username);
-            kakaoUser.setPassword(encodedPassword);
-            kakaoUser.setNickname(nickname);
-            kakaoUser.setBirth("");
-            kakaoUser.setEmail(kakaoEmail);
-            kakaoUser.setOauthProvider(OauthProvider.KAKAO);
-            userMapper.saveUser(kakaoUser.toEntity());
+            User user = kakaoUserInfo.toEntity();
+
+            userMapper.saveUser(user);
         }
         return kakaoUser;
     }
