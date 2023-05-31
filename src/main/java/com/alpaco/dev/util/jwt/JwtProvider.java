@@ -1,17 +1,22 @@
 package com.alpaco.dev.util.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.alpaco.dev.entity.user.auth.PrincipalDetails;
+import com.alpaco.dev.service.auth.PrincipalDetailsService;
+import com.alpaco.dev.util.exception.JwtInvalidException;
+import io.jsonwebtoken.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Random;
+
+import static com.alpaco.dev.util.BaseResponseStatus.*;
 
 
 @Component
@@ -19,6 +24,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtProvider {
+    private final PrincipalDetailsService principalDetailsService;
+
     @Value("${jwt.access-token.expire-length}")
     private long accessTokenExpiredIn;
 
@@ -62,5 +69,46 @@ public class JwtProvider {
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public boolean isValidToken(String token) {
+        try {
+            Jws<Claims> claimsJws = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+
+            log.info("expiredDate={}", claimsJws.getBody().getExpiration());
+            log.info("expired?={}", claimsJws.getBody().getExpiration().before(new Date()));
+            return !claimsJws.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            throw new JwtInvalidException(EXPIRED_ACCESS_TOKEN);
+        } catch (MalformedJwtException e) {
+            throw new JwtInvalidException(MALFORMED_TOKEN_TYPE);
+        } catch (SignatureException e) {
+            throw new JwtInvalidException(INVALID_SIGNATURE_JWT);
+        } catch (IllegalArgumentException e) {
+            throw new JwtInvalidException(INVALID_TOKEN_TYPE);
+        } catch (UnsupportedJwtException e) {
+            throw new JwtInvalidException(UNSUPPORTED_TOKEN_TYPE);
+        }
+    }
+
+    public Authentication getAuthentication(String token) {
+        PrincipalDetails principalDetails = principalDetailsService.loadUserByUsername(getPayload(token));
+        log.info("getAuthentication, email={}", principalDetails.getUsername());
+        return new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+    }
+
+    public String getPayload(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody().getSubject();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims().getSubject();
+        }
     }
 }
