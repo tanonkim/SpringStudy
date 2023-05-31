@@ -3,11 +3,13 @@ package com.alpaco.dev.controller;
 import com.alpaco.dev.dto.review.ReviewListResponseDto;
 import com.alpaco.dev.dto.review.ReviewSaveRequestDto;
 import com.alpaco.dev.dto.review.ReviewSaveResponseDto;
+import com.alpaco.dev.entity.user.auth.PrincipalDetails;
 import com.alpaco.dev.service.ReviewService;
 import com.alpaco.dev.util.BaseResponse;
 import com.alpaco.dev.util.exception.ReviewException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,5 +53,12 @@ public class ReviewController {
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.of(reviewImages, score, content);
         ReviewSaveResponseDto save = reviewService.save(Long.valueOf(1), reservationId, requestDto);
         return new BaseResponse<>(save);
+    }
+
+    @GetMapping("/reviews/jwttest")
+    public BaseResponse<String> jwttest(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+        String username = principalDetails.getUsername();
+
+        return new BaseResponse<>(username);
     }
 }
